@@ -53,7 +53,7 @@ public class WorkService {
 
     public Boolean findPeriod(WorkForm workForm) {
 
-    	List<DetailModel> detailModel = detailMapper.findDetail(workForm.getId(), workForm.getPeriod());
+        List<DetailModel> detailModel = detailMapper.findDetail(workForm.getId(), workForm.getPeriod());
 
         if (detailModel.size() <= 0) {
             return false;
@@ -80,26 +80,27 @@ public class WorkService {
 
         if (periodModel != null) {
             workForm.setInfo("既に作成のデータが存在します。");
+            findPeriod(workForm);
         } else {
             workForm.setInfo("新規データを作成しました。");
+
+            String[] period = workForm.getPeriod().split("-", 0);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR,  Integer.parseInt(period[0]));
+            calendar.set(Calendar.MONTH, Integer.parseInt(period[1]));
+
+            Integer lastDate = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+            List<WorkForm.Detail> details = new ArrayList<WorkForm.Detail>();
+            for (Integer i = 1; i <= lastDate; i++) {
+                WorkForm.Detail detail = new WorkForm.Detail();
+                detail.setDate(i.toString());
+                detail.setWeek(getWeek(calendar, i));
+                details.add(detail);
+            }
+
+            workForm.setDetails(details);
         }
-
-        String[] period = workForm.getPeriod().split("-", 0);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR,  Integer.parseInt(period[0]));
-        calendar.set(Calendar.MONTH, Integer.parseInt(period[1]));
-
-        Integer lastDate = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-        List<WorkForm.Detail> details = new ArrayList<WorkForm.Detail>();
-        for (Integer i = 1; i <= lastDate; i++) {
-            WorkForm.Detail detail = new WorkForm.Detail();
-            detail.setDate(i.toString());
-            detail.setWeek(getWeek(calendar, i));
-            details.add(detail);
-        }
-
-        workForm.setDetails(details);
 
         return true;
     }
