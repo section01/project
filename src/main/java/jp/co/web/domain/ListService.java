@@ -49,8 +49,14 @@ public class ListService {
 
     	List<PeriodModel> periodModel = periodMapper.findPeriodList(listForm.getId(), listForm.getPeriodFrom(), listForm.getPeriodTo());
 
+    	Boolean flag = CalendarCheck(listForm);
+
         if (periodModel.size() <= 0) {
         	listForm.setInfo("検索結果がありません。");
+        }
+
+        if (!flag) {
+        	listForm.setInfo("検索期間ToがFromより前です。");
         }
 
         List<ListForm.Detail> details = new ArrayList<ListForm.Detail>();
@@ -62,4 +68,22 @@ public class ListService {
         listForm.setDetails(details);
     }
 
+    private Boolean CalendarCheck(ListForm listForm) {
+        String from = listForm.getPeriodFrom();
+        String to = listForm.getPeriodTo();
+        String fromYear = from.substring(0,4);
+        String fromMonth = from.substring(5,7);
+        int fromYearMonth = Integer.parseInt(fromYear + fromMonth);
+        String toYear = to.substring(0,4);
+        String toMonth = to.substring(5,7);
+        int toYearMonth = Integer.parseInt(toYear + toMonth);
+
+        Boolean calendarFlag = false;
+
+        if (fromYearMonth < toYearMonth) {
+        	calendarFlag = true;
+        }
+		return calendarFlag;
+
+    }
 }
