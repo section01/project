@@ -73,6 +73,7 @@ public class ListService {
         String to = listForm.getPeriodTo();
         String fromYear = from.substring(0,4);
         String fromMonth = from.substring(5,7);
+
         int fromYearMonth = Integer.parseInt(fromYear + fromMonth);
         String toYear = to.substring(0,4);
         String toMonth = to.substring(5,7);
