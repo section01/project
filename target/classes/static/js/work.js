@@ -22,18 +22,46 @@ $(function() {
             return;
         }
 
-        openTime.ary  = openTime.split(':');
-        closeTime.ary = closeTime.split(':');
-        breakTime.ary = breakTime.split(':');
+        /// 時刻の分割
+        var openTimeArray = openTime.split(':');
+        var closeTimeArray = closeTime.split(':');
+        var breakTimeArray = breakTime.split(':');
 
-        let deff_hour = (closeTime.ary[0] - openTime.ary[0]) - breakTime.ary[0];
-        let deff_min  = (closeTime.ary[1] - openTime.ary[1]) - breakTime.ary[1];
+        /// 分割した時刻の時間と分の変換
+        var openTimeLeft = parseInt(openTimeArray[0], 10);
+        var convOpenMinute = openTimeLeft*60;
+        var openTimeRight = parseInt(openTimeArray[1], 10);
+        var addOpenTime = openTimeLeft + openTimeRight;
 
-        if (deff_min < 0) {
-        	deff_hour -= 1;
+        var closeTimeLeft = parseInt(closeTimeArray[0] ,10);
+        var convCloseMinute = closeTimeLeft*60;
+        var closeTimeRight = parseInt(closeTimeArray[1] ,10);
+        var addCloseTime = closeTimeLeft + closeTimeRight;
+
+        var breakTimeLeft = parseInt(breakTimeArray[0] ,10);
+        var convBreakMinute = breakTimeLeft*60;
+        var breakTimeRight = parseInt(breakTimeArray[1] ,10);
+        var addBreakTime = breakTimeLeft + breakTimeRight;
+
+        if (openTimeLeft == 0 && openTimeRight == 0 && closeTimeLeft == 0 && closeTimeRight == 0) {
+            return;
         }
 
-        let disp = deff_hour + ':' + deff_min;
+        if (convOpenMinute >= convCloseMinute) {
+        	return;
+        }
+
+        let deffHour = (closeTimeLeft - openTimeLeft - breakTimeLeft);
+        let deffMin = (closeTimeRight - openTimeRight - breakTimeRight);
+
+
+        if (deffMin < 0) {
+        	deffMin = -(deffMin);
+        	deffMin = (60 - deffMin);
+        }
+
+
+        let disp = ('00'+ deffHour).slice(-2) + ':' + ('00'+ deffMin).slice(-2);
         $('#details' + i + '\\.totalTime').val(disp);
     });
 
