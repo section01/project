@@ -1,0 +1,145 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>勤怠管理</title>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap-reboot.css}" />
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/common.css}" />
+<link rel="stylesheet" th:href="@{/css/list.css}" />
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/list.js}"></script>
+<!--[if lt IE 9]>
+  <script src="html5shiv.js"></script>
+  <script src="respond.min.js"></script>
+<![endif]-->
+</head>
+<body>
+  <header class="fixed-top text-white bg-dark">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h5>
+            <strong>勤怠登録画面</strong>
+          </h5>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="container-fluid py-3">
+      <div class="row">
+        <div class="col-md-3 col-lg-2">
+          <div class="card">
+            <div class="card-header">ユーザ情報</div>
+            <div class="card-body">
+                <label>社員ID：[[${id}]]</label><br>
+                <label>社員名：[[${name}]]</label><br>
+                <th:block th:if="${roles == '1'}">
+                  <label th:text="権限：一般ユーザ"></label><br>
+                </th:block>
+                <th:block th:if="${roles == '2'}">
+                  <label th:text="権限：管理ユーザ"></label><br>
+                </th:block>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 col-lg-10">
+          <form th:action="@{/list/event}" th:object="${listForm}" method="post">
+            <div class="row">
+              <div class="col-12">
+                <label>社員ID：
+                  <th:block th:switch="${roles}">
+                    <input type="text" class="form-control form-control-sm" th:case="1" th:field="*{id}" readonly>
+                    <input type="text" class="form-control form-control-sm" th:case="2" th:field="*{id}">
+                  </th:block>
+                </label>
+                <label>社員名：
+                  <th:block th:switch="${roles}">
+                    <input type="text" class="form-control form-control-sm" th:case="1" th:field="*{name}" readonly>
+                    <input type="text" class="form-control form-control-sm" th:case="2" th:field="*{name}">
+                  </th:block>
+                </label>
+                <label>検索期間From：
+                  <input type="month" class="form-control form-control-sm" th:field="*{periodFrom}">
+                </label>
+                <label>検索期間To：
+                  <input type="month" class="form-control form-control-sm" th:field="*{periodTo}">
+                </label>
+                <button type="button" class="btn btn-sm btn-outline-secondary" th:onClick="location.href='/work/origin?flag=true'">新規</button>
+                <button type="submit" class="btn btn-sm btn-outline-secondary" name="find">検索</button>
+                <button type="submit" class="btn btn-sm btn-danger" name="logout">ログアウト</button>
+              </div>
+            </div>
+            <th:block th:if="*{info != null}">
+              <div class="container">
+                <div class="row">
+                  <div class="col-12">
+                    <label class="alert alert-info" th:text="*{info}"></label>
+                  </div>
+                </div>
+              </div>
+            </th:block>
+            <th:block th:if="*{details != null}">
+              <div class="row">
+                <div class="col-12">
+                  <table class="table table-sm table-bordered">
+                    <thead>
+                      <tr>
+                        <th:block th:if="${roles == '2'}">
+                          <th>
+                            <label>社員ID</label>
+                          </th>
+                          <th>
+                            <label>社員名</label>
+                          </th>
+                        </th:block>
+                        <th>
+                          <label>年月</label>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="each, stat : *{details}">
+                        <th:block th:if="${roles == '2'}">
+                          <td>
+                            <label>[[*{details[__${stat.index}__].id}]]</label>
+                          </td>
+                          <td>
+                            <label>[[*{details[__${stat.index}__].name}]]</label>
+                          </td>
+                        </th:block>
+                        <td>
+                          <a th:href="@{/work(
+                              period=*{details[__${stat.index}__].period},
+                              id=*{details[__${stat.index}__].id},
+                              name=*{details[__${stat.index}__].name})}"
+                            th:text="*{details[__${stat.index}__].period}"></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </th:block>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="fixed-bottom bg-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-12">
+          <label class="text-muted">© 2019 Sample.Ltd</label>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "jp.co.web.infrastructure.PeriodMapper">
+
+    <resultMap id="result" type="jp.co.web.infrastructure.PeriodModel">
+        <result property="id"     column="id" />
+        <result property="peroid" column="peroid" />
+    </resultMap>
+
+    <select id="findPeriod" resultMap="result">
+        select
+            pt.id,
+            pt.period
+        from
+            period_tbl pt
+        where
+            pt.id     = #{id}
+        and pt.period = #{period}
+    </select>
+
+    <select id="findPeriodList" resultMap="result">
+        select
+            pt.id,
+            um.name,
+            pt.period
+        from
+            period_tbl pt
+        inner join
+            user_mst um
+        on
+            pt.id = um.id
+        <where>
+          <if test="id != null">
+              pt.id = #{id}
+          </if>
+          <if test="periodFrom != null and periodTo != null">
+              and pt.period &gt;= #{periodFrom}
+              and pt.period &lt;= #{periodTo}
+          </if>
+          <if test="periodFrom != null and periodTo == null">
+              and pt.period &gt;= #{periodFrom}
+          </if>
+          <if test="periodFrom == null and periodTo != null">
+              and pt.period &lt;= #{periodTo}
+          </if>
+        </where>
+    </select>
+
+    <delete id="deletePeriod">
+        delete from
+            period_tbl
+        where
+            id     = #{id}
+        and period = #{period}
+    </delete>
+
+    <insert id="insertPeriod">
+        insert into period_tbl (
+            id,
+            period
+        )
+        values (
+            #{id},
+            #{period}
+        )
+    </insert>
+
+</mapper>
