@@ -13,6 +13,8 @@ import lombok.Setter;
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserInformation {
 
+    private String roles = null;
+
     private String id = null;
 
     private String name = null;
