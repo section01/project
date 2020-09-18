@@ -13,10 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.co.web.domain.WorkService;
+import jp.co.web.session.UserInformation;
 
 @Controller
 @RequestMapping("/work")
 public class WorkController {
+
+    @Autowired
+    private UserInformation userInformation;
 
     @Autowired
     private WorkService workService;
@@ -27,9 +31,14 @@ public class WorkController {
     }
 
     @GetMapping
-    public String init(Model model, @ModelAttribute WorkForm workForm, @RequestParam("select") String select) {
+    public String init(Model model, @ModelAttribute WorkForm workForm,
+        @RequestParam("period") String period,
+        @RequestParam("id")     String id,
+        @RequestParam("name")   String name) {
 
-        workForm.setPeriod(select);
+        workForm.setPeriod(period);
+        workForm.setId(id);
+        workForm.setName(name);
 
         if (!workService.findUserInformation(workForm)) {
             return "forward:/login";
@@ -38,6 +47,10 @@ public class WorkController {
         if (!workService.findPeriod(workForm)) {
             return "forward:/login";
         }
+
+        model.addAttribute("roles", userInformation.getRoles());
+        model.addAttribute("id",    userInformation.getId());
+        model.addAttribute("name",  userInformation.getName());
 
         return "work";
     }
@@ -51,6 +64,10 @@ public class WorkController {
             return "forward:/login";
         }
 
+        model.addAttribute("roles", userInformation.getRoles());
+        model.addAttribute("id",    userInformation.getId());
+        model.addAttribute("name",  userInformation.getName());
+
         return "work";
     }
 
@@ -58,26 +75,41 @@ public class WorkController {
     public String make(Model model, @ModelAttribute WorkForm workForm) {
 
         if (workForm.getPeriod() == null) {
-        	workForm.setFlag(true);
+            workForm.setFlag(true);
+            model.addAttribute("roles", userInformation.getRoles());
+            model.addAttribute("id",    userInformation.getId());
+            model.addAttribute("name",  userInformation.getName());
             return "work";
         }
 
         workService.makePeriod(workForm);
 
-		return "work";
+        model.addAttribute("roles", userInformation.getRoles());
+        model.addAttribute("id",    userInformation.getId());
+        model.addAttribute("name",  userInformation.getName());
+
+        return "work";
     }
 
     @PostMapping(value="event", params="save")
     public String save(Model model, @ModelAttribute WorkForm workForm) {
 
         if (workForm.getPeriod() == null || workForm.getDetails() == null) {
-        	workForm.setFlag(true);
+            workForm.setFlag(true);
+            model.addAttribute("roles", userInformation.getRoles());
+            model.addAttribute("id",    userInformation.getId());
+            model.addAttribute("name",  userInformation.getName());
             return "work";
         }
 
         if (!workService.savePeriod(workForm)) {
             return "forward:/login";
         }
+
+
+        model.addAttribute("roles", userInformation.getRoles());
+        model.addAttribute("id",    userInformation.getId());
+        model.addAttribute("name",  userInformation.getName());
 
         return "work";
     }
@@ -86,13 +118,20 @@ public class WorkController {
     public String delete(Model model, @ModelAttribute WorkForm workForm) {
 
         if (workForm.getPeriod() == null || workForm.getDetails() == null) {
-        	workForm.setFlag(true);
+            workForm.setFlag(true);
+            model.addAttribute("roles", userInformation.getRoles());
+            model.addAttribute("id",    userInformation.getId());
+            model.addAttribute("name",  userInformation.getName());
             return "work";
         }
 
         if (!workService.deletePeriod(workForm)) {
             return "forward:/login";
         }
+
+        model.addAttribute("roles", userInformation.getRoles());
+        model.addAttribute("id",    userInformation.getId());
+        model.addAttribute("name",  userInformation.getName());
 
         return "forward:/list";
 
@@ -105,7 +144,7 @@ public class WorkController {
 
     @PostMapping(value="event", params="logout")
     public String logout(Model model, @ModelAttribute WorkForm workForm) {
-    	return "forward:/login";
+        return "forward:/login";
     }
 
 }

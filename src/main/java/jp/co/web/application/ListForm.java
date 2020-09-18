@@ -26,6 +26,10 @@ public class ListForm implements Serializable {
     @Setter
     public static class Detail implements Serializable {
 
+        private String id = null;
+
+        private String name = null;
+
         private String period = null;
 
     }

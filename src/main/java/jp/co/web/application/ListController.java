@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jp.co.web.domain.ListService;
+import jp.co.web.session.UserInformation;
 
 @Controller
 @RequestMapping("/list")
 public class ListController {
+
+    @Autowired
+    private UserInformation userInformation;
 
     @Autowired
     private ListService listService;
@@ -33,6 +37,13 @@ public class ListController {
             return "forward:/login";
         }
 
+        model.addAttribute("roles", userInformation.getRoles());
+        model.addAttribute("id",    userInformation.getId());
+        model.addAttribute("name",  userInformation.getName());
+
+        listForm.setId(userInformation.getId());
+        listForm.setName(userInformation.getName());
+
         return "list";
     }
 
@@ -41,12 +52,16 @@ public class ListController {
 
         listService.findPeriod(listFrom);
 
+        model.addAttribute("roles", userInformation.getRoles());
+        model.addAttribute("id",    userInformation.getId());
+        model.addAttribute("name",  userInformation.getName());
+
         return "list";
     }
 
     @PostMapping(value="event", params="logout")
     public String logout(Model model, @ModelAttribute ListForm listFrom) {
-    	return "forward:/login";
+        return "forward:/login";
     }
 
 }
