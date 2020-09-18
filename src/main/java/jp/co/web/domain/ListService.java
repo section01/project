@@ -39,9 +39,6 @@ public class ListService {
             return false;
         }
 
-        listForm.setId(userModel.getId());
-        listForm.setName(userModel.getName());
-
         return true;
     }
 
@@ -85,9 +82,9 @@ public class ListService {
         Boolean calendarFlag = false;
 
         if (fromYearMonth < toYearMonth) {
-        	calendarFlag = true;
+            calendarFlag = true;
         }
-		return calendarFlag;
+        return calendarFlag;
 
     }
 }

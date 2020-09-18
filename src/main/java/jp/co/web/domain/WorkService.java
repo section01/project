@@ -45,9 +45,6 @@ public class WorkService {
             return false;
         }
 
-        workForm.setId(userModel.getId());
-        workForm.setName(userModel.getName());
-
         return true;
     }
 
@@ -55,7 +52,7 @@ public class WorkService {
 
         List<DetailModel> detailModel = detailMapper.findDetail(workForm.getId(), workForm.getPeriod());
 
-        if (detailModel.size() <= 0) {
+        if (detailModel == null || detailModel.size() <= 0) {
             return false;
         }
 
@@ -72,7 +69,7 @@ public class WorkService {
 
     public Boolean makePeriod(WorkForm workForm) {
 
-        if (workForm.getId() == null || workForm.getPeriod() == null) {
+        if (workForm.getPeriod() == null) {
             return false;
         }
 
@@ -108,7 +105,8 @@ public class WorkService {
     public Boolean savePeriod(WorkForm workForm) {
 
         if (workForm.getId() == null || workForm.getName() == null) {
-            return false;
+            workForm.setId(userInformation.getId());
+            workForm.setName(userInformation.getName());
         }
 
         periodMapper.deletePeriod(workForm.getId(), workForm.getPeriod());
@@ -124,7 +122,7 @@ public class WorkService {
 
     public Boolean deletePeriod(WorkForm workForm) {
 
-        if (workForm.getId() == null || workForm.getName() == null) {
+        if (workForm.getName() == null) {
             return false;
         }
 
