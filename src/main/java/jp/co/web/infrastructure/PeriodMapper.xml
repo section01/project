@@ -22,21 +22,29 @@
     <select id="findPeriodList" resultMap="result">
         select
             pt.id,
+            um.name,
             pt.period
         from
             period_tbl pt
-        where
-            pt.id = #{id}
-        <if test="periodFrom != null and periodTo != null">
-            and pt.period &gt;= #{periodFrom}
-            and pt.period &lt;= #{periodTo}
-        </if>
-        <if test="periodFrom != null and periodTo == null">
-            and pt.period &gt;= #{periodFrom}
-        </if>
-        <if test="periodFrom == null and periodTo != null">
-            and pt.period &lt;= #{periodTo}
-        </if>
+        inner join
+            user_mst um
+        on
+            pt.id = um.id
+        <where>
+          <if test="id != null">
+              pt.id = #{id}
+          </if>
+          <if test="periodFrom != null and periodTo != null">
+              and pt.period &gt;= #{periodFrom}
+              and pt.period &lt;= #{periodTo}
+          </if>
+          <if test="periodFrom != null and periodTo == null">
+              and pt.period &gt;= #{periodFrom}
+          </if>
+          <if test="periodFrom == null and periodTo != null">
+              and pt.period &lt;= #{periodTo}
+          </if>
+        </where>
     </select>
 
     <delete id="deletePeriod">

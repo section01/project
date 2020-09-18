@@ -31,9 +31,14 @@
         on
             dt.id     = pt.id
         and dt.period = pt.period
-        where
-            pt.id     = #{id}
-        and pt.period = #{period}
+        <where>
+          <if test="id != null">
+            pt.id = #{id}
+          </if>
+          <if test="period != null">
+            and pt.period = #{period}
+          </if>
+        </where>
     </select>
 
     <delete id="deleteDetail">

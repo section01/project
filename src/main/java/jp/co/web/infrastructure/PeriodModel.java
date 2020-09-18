@@ -9,6 +9,8 @@ public class PeriodModel {
 
     private String id = null;
 
+    private String name = null;
+
     private String period = null;
 
 }
