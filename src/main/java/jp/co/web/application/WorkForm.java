@@ -36,6 +36,11 @@ public class WorkForm implements Serializable {
     private String name = null;
 
     /**
+     * ステータス
+     */
+    private String status = null;
+
+    /**
      * 勤怠詳細リスト
      */
     private List<Detail> details = null;

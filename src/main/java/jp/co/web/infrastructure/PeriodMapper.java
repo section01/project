@@ -11,16 +11,16 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface PeriodMapper {
 
-	/**
-	 * 取得
-	 */
+    /**
+     * 取得
+     */
     public PeriodModel findPeriod(
             @Param("id")     String id,
             @Param("period") String period);
 
-	/**
-	 * 取得
-	 */
+    /**
+     * 取得
+     */
     public List<PeriodModel> findPeriodList(
             @Param("id")          String id,
             @Param("periodFrom")  String periodFrom,
@@ -39,5 +39,13 @@ public interface PeriodMapper {
     public void insertPeriod(
             @Param("id")     String id,
             @Param("period") String period);
+
+    /**
+     * ステータス更新
+     */
+    public void updateStatus(
+            @Param("id")     String id,
+            @Param("period") String period,
+            @Param("status") String status);
 
 }

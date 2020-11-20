@@ -74,4 +74,15 @@
         )
     </insert>
 
+    <!-- 提出 -->
+    <update id="updateStatus">
+        update
+            period_tbl
+        set
+            status = #{status}
+        where
+            id     = #{id}
+        and period = #{period}
+    </update>
+
 </mapper>

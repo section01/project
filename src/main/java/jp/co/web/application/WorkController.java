@@ -50,7 +50,8 @@ public class WorkController {
         @RequestParam("display") String display,
         @RequestParam("period")  String period,
         @RequestParam("id")      String id,
-        @RequestParam("name")    String name) {
+        @RequestParam("name")    String name,
+        @RequestParam("status")  String status) {
 
         // ユーザが有効化チェック
         if (!workService.findUserInformation(workForm)) {
@@ -69,6 +70,7 @@ public class WorkController {
         workForm.setId(id);
         workForm.setName(name);
         workForm.setPeriod(period);
+        workForm.setStatus(status);
 
         return "work";
     }
@@ -117,6 +119,28 @@ public class WorkController {
     }
 
     /**
+     * 提出
+     */
+    @PostMapping(value="event", params="submit")
+    public String submit(Model model, @ModelAttribute WorkForm workForm) {
+
+        workService.submit(workForm);
+
+        return "forward:/list";
+    }
+
+    /**
+     * 提出取消
+     */
+    @PostMapping(value="event", params="cancel")
+    public String cancel(Model model, @ModelAttribute WorkForm workForm) {
+
+        workService.cancel(workForm);
+
+        return "forward:/list";
+    }
+
+    /**
      * 削除
      */
     @PostMapping(value="event", params="delete")
@@ -138,7 +162,6 @@ public class WorkController {
         }
 
         return "forward:/list";
-
     }
 
     /**

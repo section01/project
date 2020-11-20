@@ -98,7 +98,7 @@ public class WorkService {
      */
     public Boolean makePeriod(WorkForm workForm) {
 
-        // 勤怠詳細取得
+        // 勤怠一覧取得
         PeriodModel periodModel = periodMapper.findPeriod(workForm.getId(), workForm.getPeriod());
 
         // 作成済みの場合、勤怠詳細取得
@@ -144,6 +144,26 @@ public class WorkService {
         detailMapper.insertDetail(workForm.getId(), workForm.getPeriod(), workForm.getDetails());
 
         workForm.setInfo("データを登録しました。");
+
+        return true;
+    }
+
+    /**
+     * 勤怠詳細提出
+     */
+    public Boolean submit(WorkForm workForm) {
+
+        periodMapper.updateStatus(workForm.getId(), workForm.getPeriod(), "1");
+
+        return true;
+    }
+
+    /**
+     * 勤怠詳細提出取消
+     */
+    public Boolean cancel(WorkForm workForm) {
+
+        periodMapper.updateStatus(workForm.getId(), workForm.getPeriod(), "0");
 
         return true;
     }
