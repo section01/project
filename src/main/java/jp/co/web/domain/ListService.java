@@ -15,22 +15,40 @@ import jp.co.web.infrastructure.UserMapper;
 import jp.co.web.infrastructure.UserModel;
 import jp.co.web.session.UserInformation;
 
+/**
+ * 勤怠一覧画面サービス
+ */
 @Service
 @Transactional
 public class ListService {
 
+    /**
+     * ユーザ情報
+     */
     @Autowired
     private UserInformation userInformation;
 
+    /**
+     * ユーザリポジトリ
+     */
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * 勤怠期間リポジトリ
+     */
     @Autowired
     private PeriodMapper periodMapper;
 
+    /**
+     * モデルマッパー
+     */
     @Autowired
     private ModelMapper modelMapper;
 
+    /**
+     * ユーザ有効チェック
+     */
     public Boolean findUserInformation(ListForm listForm) {
 
         UserModel userModel = userMapper.findUserInformationByExist(userInformation.getId(), userInformation.getName());
@@ -42,49 +60,25 @@ public class ListService {
         return true;
     }
 
+    /**
+     * 検索
+     */
     public void findPeriod(ListForm listForm) {
 
+        // 勤怠一覧取得
         List<PeriodModel> periodModel = periodMapper.findPeriodList(listForm.getId(), listForm.getPeriodFrom(), listForm.getPeriodTo());
 
+        // 取得結果無し
         if (periodModel.size() <= 0) {
             listForm.setInfo("検索結果がありません。");
         }
 
-        if (!CalendarCheck(listForm)) {
-            listForm.setInfo("検索期間ToがFromより前です。");
-        }
-
+        // 勤怠一覧セット
         List<ListForm.Detail> details = new ArrayList<ListForm.Detail>();
         for (PeriodModel each : periodModel) {
             ListForm.Detail detail = modelMapper.map(each, ListForm.Detail.class);
             details.add(detail);
         }
-
         listForm.setDetails(details);
-    }
-
-    private Boolean CalendarCheck(ListForm listForm) {
-
-        if (listForm.getPeriodFrom() == null || listForm.getPeriodTo() == null) {
-            return true;
-        }
-
-        String from = listForm.getPeriodFrom();
-        String to = listForm.getPeriodTo();
-        String fromYear = from.substring(0,4);
-        String fromMonth = from.substring(5,7);
-
-        int fromYearMonth = Integer.parseInt(fromYear + fromMonth);
-        String toYear = to.substring(0,4);
-        String toMonth = to.substring(5,7);
-        int toYearMonth = Integer.parseInt(toYear + toMonth);
-
-        Boolean calendarFlag = false;
-
-        if (fromYearMonth < toYearMonth) {
-            calendarFlag = true;
-        }
-        return calendarFlag;
-
     }
 }

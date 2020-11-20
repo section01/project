@@ -7,17 +7,29 @@ import org.apache.ibatis.annotations.Param;
 
 import jp.co.web.application.WorkForm;
 
+/**
+ * 勤怠詳細リポジトリ
+ */
 @Mapper
 public interface DetailMapper {
 
+	/**
+	 * 取得
+	 */
     public List<DetailModel> findDetail(
             @Param("id")     String id,
             @Param("period") String period);
 
+    /**
+     * 削除
+     */
     public void deleteDetail(
             @Param("id")     String id,
             @Param("period") String period);
 
+    /**
+     * 登録
+     */
     public void insertDetail(
     		@Param("id")      String id,
             @Param("period")  String period,

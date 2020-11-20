@@ -25,7 +25,7 @@
       <div class="row">
         <div class="col-12">
           <h5>
-            <strong>勤怠登録画面</strong>
+            <strong>勤怠管理画面</strong>
           </h5>
         </div>
       </div>
@@ -38,14 +38,17 @@
           <div class="card">
             <div class="card-header">ユーザ情報</div>
             <div class="card-body">
-                <label>社員ID：[[${id}]]</label><br>
-                <label>社員名：[[${name}]]</label><br>
-                <th:block th:if="${roles == '1'}">
-                  <label th:text="権限：一般ユーザ"></label><br>
-                </th:block>
-                <th:block th:if="${roles == '2'}">
-                  <label th:text="権限：管理ユーザ"></label><br>
-                </th:block>
+              <label th:text="'社員ID：' + ${@userInformation.getId()}"></label><br>
+              <label th:text="社員名： + ${@userInformation.getName()}"></label><br>
+              <th:block th:if="${@userInformation.getRoles() == '1'}">
+                <label th:text="権限：一般ユーザ"></label><br>
+              </th:block>
+              <th:block th:if="${@userInformation.getRoles() == '2'}">
+                <label th:text="権限：管理ユーザ"></label><br>
+              </th:block>
+              <th:block th:if="${@userInformation.getRoles() == '3'}">
+                <label th:text="権限：システム管理"></label><br>
+              </th:block>
             </div>
           </div>
         </div>
@@ -59,31 +62,30 @@
                 <label>社員名：
                   <input type="text" class="form-control form-control-sm" th:field="*{name}" readonly>
                 </label>
-                <th:block th:if="*{!flag}">
-                  <label for="period">期間：
-                    <input type="month" class="form-control form-control-sm" th:field="*{period}"readonly>
-                  </label>
-                </th:block>
-                <th:block th:if="*{flag}">
+                <input type="hidden" th:field="*{display}">
+                <th:block th:if="*{display == 'new'}">
                   <label for="period">期間：
                     <input type="month" class="form-control form-control-sm" th:field="*{period}">
                   </label>
                 </th:block>
-                <th:block th:if="*{flag}">
-                  <button type="submit" class="btn btn-sm btn-outline-secondary" name="make">作成</button>
+                <th:block th:if="*{display == 'search'}">
+                  <label for="period">期間：
+                    <input type="month" class="form-control form-control-sm" th:field="*{period}" readonly>
+                  </label>
                 </th:block>
+                <button type="submit" class="btn btn-sm btn-outline-secondary" name="create">作成</button>
                 <button type="submit" class="btn btn-sm btn-outline-secondary" name="save">登録</button>
-                <button type="submit" class="btn btn-sm btn-outline-secondary" name="delete">削除</button>
+                <th:block th:if="${roles == '2' or roles == '3'}">
+                  <button type="submit" class="btn btn-sm btn-outline-secondary" name="delete">削除</button>
+                </th:block>
                 <button type="submit" class="btn btn-sm btn-danger" name="back">戻る</button>
                 <button type="submit" class="btn btn-sm btn-danger" name="logout">ログアウト</button>
               </div>
             </div>
             <th:block th:if="*{info != null}">
-              <div class="container">
-                <div class="row">
-                  <div class="col-12">
-                    <label class="alert alert-info" th:text="*{info}"></label>
-                  </div>
+              <div class="row">
+                <div class="col-12">
+                  <label class="alert alert-info" th:text="*{info}"></label>
                 </div>
               </div>
             </th:block>

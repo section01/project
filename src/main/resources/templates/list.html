@@ -25,7 +25,7 @@
       <div class="row">
         <div class="col-12">
           <h5>
-            <strong>勤怠登録画面</strong>
+            <strong>勤怠一覧画面</strong>
           </h5>
         </div>
       </div>
@@ -38,13 +38,16 @@
           <div class="card">
             <div class="card-header">ユーザ情報</div>
             <div class="card-body">
-                <label>社員ID：[[${id}]]</label><br>
-                <label>社員名：[[${name}]]</label><br>
-                <th:block th:if="${roles == '1'}">
+                <label th:text="'社員ID：' + ${@userInformation.getId()}"></label><br>
+                <label th:text="社員名： + ${@userInformation.getName()}"></label><br>
+                <th:block th:if="${@userInformation.getRoles() == '1'}">
                   <label th:text="権限：一般ユーザ"></label><br>
                 </th:block>
-                <th:block th:if="${roles == '2'}">
+                <th:block th:if="${@userInformation.getRoles() == '2'}">
                   <label th:text="権限：管理ユーザ"></label><br>
+                </th:block>
+                <th:block th:if="${@userInformation.getRoles() == '3'}">
+                  <label th:text="権限：システム管理"></label><br>
                 </th:block>
             </div>
           </div>
@@ -54,13 +57,13 @@
             <div class="row">
               <div class="col-12">
                 <label>社員ID：
-                  <th:block th:switch="${roles}">
+                  <th:block th:switch="${@userInformation.getRoles()}">
                     <input type="text" class="form-control form-control-sm" th:case="1" th:field="*{id}" readonly>
                     <input type="text" class="form-control form-control-sm" th:case="2" th:field="*{id}">
                   </th:block>
                 </label>
                 <label>社員名：
-                  <th:block th:switch="${roles}">
+                  <th:block th:switch="${@userInformation.getRoles()}">
                     <input type="text" class="form-control form-control-sm" th:case="1" th:field="*{name}" readonly>
                     <input type="text" class="form-control form-control-sm" th:case="2" th:field="*{name}">
                   </th:block>
@@ -71,17 +74,16 @@
                 <label>検索期間To：
                   <input type="month" class="form-control form-control-sm" th:field="*{periodTo}">
                 </label>
-                <button type="button" class="btn btn-sm btn-outline-secondary" th:onClick="location.href='/work/origin?flag=true'">新規</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary"
+                  th:onclick="'location.href=\'' + @{/work(display=new, period=null, id=*{id}, name=*{name})} + '\''">新規</button>
                 <button type="submit" class="btn btn-sm btn-outline-secondary" name="find">検索</button>
                 <button type="submit" class="btn btn-sm btn-danger" name="logout">ログアウト</button>
               </div>
             </div>
             <th:block th:if="*{info != null}">
-              <div class="container">
-                <div class="row">
-                  <div class="col-12">
-                    <label class="alert alert-info" th:text="*{info}"></label>
-                  </div>
+              <div class="row">
+                <div class="col-12">
+                  <label class="alert alert-info" th:text="*{info}"></label>
                 </div>
               </div>
             </th:block>
@@ -91,7 +93,7 @@
                   <table class="table table-sm table-bordered">
                     <thead>
                       <tr>
-                        <th:block th:if="${roles == '2'}">
+                        <th:block th:if="${@userInformation.getRoles() == '2'} or ${@userInformation.getRoles() == '3'}">
                           <th>
                             <label>社員ID</label>
                           </th>
@@ -102,11 +104,14 @@
                         <th>
                           <label>年月</label>
                         </th>
+                        <th>
+                          <label>ステータス</label>
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr th:each="each, stat : *{details}">
-                        <th:block th:if="${roles == '2'}">
+                        <th:block th:if="${@userInformation.getRoles() == '2'} or ${@userInformation.getRoles() == '3'}">
                           <td>
                             <label>[[*{details[__${stat.index}__].id}]]</label>
                           </td>
@@ -116,10 +121,13 @@
                         </th:block>
                         <td>
                           <a th:href="@{/work(
-                              period=*{details[__${stat.index}__].period},
-                              id=*{details[__${stat.index}__].id},
-                              name=*{details[__${stat.index}__].name})}"
+                            display=search, period=*{details[__${stat.index}__].period}, id=*{details[__${stat.index}__].id}, name=*{details[__${stat.index}__].name})}"
                             th:text="*{details[__${stat.index}__].period}"></a>
+                        </td>
+                        <td>
+                          <th:block th:if="*{details[__${stat.index}__].status == '0'}">
+                            <label>提出期限を過ぎています</label>
+                          </th:block>
                         </td>
                       </tr>
                     </tbody>

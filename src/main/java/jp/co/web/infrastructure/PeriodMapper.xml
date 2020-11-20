@@ -8,6 +8,7 @@
         <result property="peroid" column="peroid" />
     </resultMap>
 
+    <!-- 取得 -->
     <select id="findPeriod" resultMap="result">
         select
             pt.id,
@@ -19,11 +20,13 @@
         and pt.period = #{period}
     </select>
 
+    <!-- 取得 -->
     <select id="findPeriodList" resultMap="result">
         select
             pt.id,
             um.name,
-            pt.period
+            pt.period,
+            pt.status
         from
             period_tbl pt
         inner join
@@ -45,8 +48,12 @@
               and pt.period &lt;= #{periodTo}
           </if>
         </where>
+        order by
+          pt.id asc,
+          pt.period asc
     </select>
 
+    <!-- 削除 -->
     <delete id="deletePeriod">
         delete from
             period_tbl
@@ -55,6 +62,7 @@
         and period = #{period}
     </delete>
 
+    <!-- 登録 -->
     <insert id="insertPeriod">
         insert into period_tbl (
             id,
