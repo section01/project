@@ -60,12 +60,14 @@
                   <th:block th:switch="${@userInformation.getRoles()}">
                     <input type="text" class="form-control form-control-sm" th:case="1" th:field="*{id}" readonly>
                     <input type="text" class="form-control form-control-sm" th:case="2" th:field="*{id}">
+                    <input type="text" class="form-control form-control-sm" th:case="3" th:field="*{id}">
                   </th:block>
                 </label>
                 <label>社員名：
                   <th:block th:switch="${@userInformation.getRoles()}">
                     <input type="text" class="form-control form-control-sm" th:case="1" th:field="*{name}" readonly>
                     <input type="text" class="form-control form-control-sm" th:case="2" th:field="*{name}">
+                    <input type="text" class="form-control form-control-sm" th:case="3" th:field="*{name}">
                   </th:block>
                 </label>
                 <label>検索期間From：
