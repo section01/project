@@ -137,7 +137,7 @@ public class WorkService {
 
         // 勤怠期間登録
         periodMapper.deletePeriod(workForm.getId(), workForm.getPeriod());
-        periodMapper.insertPeriod(workForm.getId(), workForm.getPeriod());
+        periodMapper.insertPeriod(workForm.getId(), workForm.getPeriod(), workForm.getStatus());
 
         // 勤怠詳細登録
         detailMapper.deleteDetail(workForm.getId(), workForm.getPeriod());

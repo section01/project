@@ -74,12 +74,14 @@
                   </label>
                 </th:block>
                 <button type="submit" class="btn btn-sm btn-outline-secondary" name="create">作成</button>
-                <button type="submit" class="btn btn-sm btn-outline-secondary" name="save">登録</button>
+                <th:block th:if="*{status == '0' or @userInformation.getRoles() == '2' or @userInformation.getRoles() == '3'}">
+                  <button type="submit" class="btn btn-sm btn-outline-secondary" name="save">登録</button>
+                </th:block>
                 <input type="hidden" th:field="*{status}">
-                <th:block th:if="*{status == '0'}">
+                <th:block th:if="*{status == '0' and display != 'new'}">
                   <button type="submit" class="btn btn-sm btn-outline-secondary" name="submit">提出</button>
                 </th:block>
-                <th:block th:if="${@userInformation.getRoles() == '2' or @userInformation.getRoles() == '3'}">
+                <th:block th:if="${@userInformation.getRoles() == '2' or @userInformation.getRoles() == '3' and display != 'new'}">
                   <th:block th:if="*{status == '1'}">
                     <button type="submit" class="btn btn-sm btn-outline-secondary" name="cancel">提出取消</button>
                   </th:block>

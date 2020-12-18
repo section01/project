@@ -66,11 +66,13 @@
     <insert id="insertPeriod">
         insert into period_tbl (
             id,
-            period
+            period,
+            status
         )
         values (
             #{id},
-            #{period}
+            #{period},
+            #{status}
         )
     </insert>
 

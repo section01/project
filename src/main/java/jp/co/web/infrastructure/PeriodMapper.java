@@ -38,7 +38,8 @@ public interface PeriodMapper {
      */
     public void insertPeriod(
             @Param("id")     String id,
-            @Param("period") String period);
+            @Param("period") String period,
+            @Param("status") String status);
 
     /**
      * ステータス更新

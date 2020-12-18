@@ -75,7 +75,7 @@
                   <input type="month" class="form-control form-control-sm" th:field="*{periodTo}">
                 </label>
                 <button type="button" class="btn btn-sm btn-outline-secondary"
-                    th:onclick="'location.href=\'' + @{/work(display=new, period=null, id=*{id}, name=*{name})} + '\''">新規</button>
+                    th:onclick="'location.href=\'' + @{/work(display=new, period=null, id=*{id}, name=*{name}, status='0')} + '\''">新規</button>
                 <button type="submit" class="btn btn-sm btn-outline-secondary" name="find">検索</button>
                 <button type="submit" class="btn btn-sm btn-danger" name="logout">ログアウト</button>
               </div>
