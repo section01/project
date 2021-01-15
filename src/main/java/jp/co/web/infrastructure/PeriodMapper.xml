@@ -14,7 +14,7 @@
             pt.id,
             pt.period
         from
-            period_tbl pt
+            ${dbschema}.period_tbl pt
         where
             pt.id     = #{id}
         and pt.period = #{period}
@@ -28,9 +28,9 @@
             pt.period,
             pt.status
         from
-            period_tbl pt
+            ${dbschema}.period_tbl pt
         inner join
-            user_mst um
+            ${dbschema}.user_mst um
         on
             pt.id = um.id
         <where>
@@ -56,7 +56,7 @@
     <!-- 削除 -->
     <delete id="deletePeriod">
         delete from
-            period_tbl
+            ${dbschema}.period_tbl
         where
             id     = #{id}
         and period = #{period}
@@ -79,7 +79,7 @@
     <!-- 提出 -->
     <update id="updateStatus">
         update
-            period_tbl
+            ${dbschema}.period_tbl
         set
             status = #{status}
         where

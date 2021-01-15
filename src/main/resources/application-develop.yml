@@ -1,0 +1,26 @@
+server:
+  port: 9000
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres?serverTimezone=JST
+    username: postgres
+    password: postgres
+    hikari.data-source-properties.use-unicode: TRUE
+    hikari.data-source-properties.character-encoding: UTF-8
+  flyway:
+    enabled: TRUE
+    locations: classpath:/db/migration/develop
+    baseline-on-migrate: TRUE
+    baseline-version: 0.0.0
+    schemas: project
+    table: schema_history
+logging:
+  file:
+    name: ../log/app.log
+    max-history: 7
+  level:
+    root: INFO
+    springframework.web: INFO
+    org.hibernate.sql: DEBUG
+    com.worknavi: DEBUG

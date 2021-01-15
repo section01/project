@@ -25,9 +25,4 @@ public class UserModel {
      */
     private String name = null;
 
-    /**
-     * スマホフラグ
-     */
-    private boolean smartflag = false;
-
 }

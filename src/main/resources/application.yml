@@ -1,0 +1,19 @@
+spring:
+  application.name: project
+  profiles.active: develop
+  messages:
+     basename: i18n/messages
+     encoding: UTF-8
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    servlet.content-type: text/html
+mybatis:
+  configuration-properties:
+    dbschema: project
+    map-underscore-to-camel-case: TRUE
+    default-fetch-size: 100
+    default-statement-timeout: 30
+  mapper-locations: classpath:/jp/co/web/infrastructure/*.xml
