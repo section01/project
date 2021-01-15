@@ -4,12 +4,15 @@
 <mapper namespace = "jp.co.web.infrastructure.UserMapper">
 
     <resultMap id="result" type="jp.co.web.infrastructure.UserModel">
+        <result property="roles" column="roles" />
         <result property="id"   column="id" />
         <result property="name" column="name" />
     </resultMap>
 
+	<!-- 取得 -->
     <select id="findUserInformationByAuth" resultMap="result">
         select
+            am.roles,
             um.id,
             um.name
         from
@@ -23,12 +26,18 @@
         and am.password = #{password}
     </select>
 
+	<!-- 取得 -->
     <select id="findUserInformationByExist" resultMap="result">
         select
+            am.roles,
             um.id,
             um.name
         from
             user_mst um
+        inner join
+            auth_mst am
+        on
+            am.id = um.id
         where
             um.id   = #{id}
         and um.name = #{name}

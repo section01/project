@@ -48,6 +48,11 @@ public class ListForm implements Serializable {
     private List<Detail> details = null;
 
     /**
+     * スマホフラグ
+     */
+    private Boolean smartflag = false;
+
+    /**
      * 勤怠情報
      */
     @Getter

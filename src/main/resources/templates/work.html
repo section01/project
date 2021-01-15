@@ -32,6 +32,7 @@
     </div>
   </header>
   <main>
+  <div id="computer" style="display:none">
     <div class="container-fluid py-3">
       <div class="row">
         <div class="col-md-3 col-lg-2">
@@ -156,7 +157,163 @@
         </div>
       </div>
     </div>
+   </div>
+  <div id="smart" style="display:none">
+    <div class="container-fluid py-3">
+      <div class="row">
+        <div class="col-xs-3 col-md-3 col-lg-2">
+          <div class="card">
+            <div class="card-header">ユーザ情報</div>
+            <div class="card-body">
+              <label th:text="'社員ID：' + ${@userInformation.getId()}"></label><br>
+              <label th:text="社員名： + ${@userInformation.getName()}"></label><br>
+              <th:block th:if="${@userInformation.getRoles() == '1'}">
+                <label th:text="権限：一般ユーザ"></label><br>
+              </th:block>
+              <th:block th:if="${@userInformation.getRoles() == '2'}">
+                <label th:text="権限：管理ユーザ"></label><br>
+              </th:block>
+              <th:block th:if="${@userInformation.getRoles() == '3'}">
+                <label th:text="権限：システム管理"></label><br>
+              </th:block>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 col-lg-10">
+          <form th:action="@{/work/event}" th:object="${workForm}" method="post">
+            <div class="row">
+              <div class="col-12">
+              <br>
+                <div>
+                  <label>社員ID：
+                    <input type="text" class="form-control form-control-sm" th:field="*{id}" readonly>
+                  </label>
+                </div>
+                <br>
+                <div>
+                  <label>社員名：
+                    <input type="text" class="form-control form-control-sm" th:field="*{name}" readonly>
+                  </label>
+                </div>
+                <br>
+                <div>
+                  <input type="hidden" th:field="*{display}">
+                  <th:block th:if="*{display == 'new'}">
+                    <label for="period">期間：
+                      <input type="month" class="form-control form-control-sm" th:field="*{period}">
+                    </label>
+                  </th:block>
+                  <th:block th:if="*{display == 'search'}">
+                    <label for="period">期間：
+                      <input type="month" class="form-control form-control-sm" th:field="*{period}" readonly>
+                    </label>
+                  </th:block>
+                </div>
+                <br>
+                <div>
+                  <button type="submit" class="btn btn-sm btn-outline-secondary" name="create">作成</button>
+                  <th:block th:if="*{status == '0' or @userInformation.getRoles() == '2' or @userInformation.getRoles() == '3'}">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary" name="save">登録</button>
+                  </th:block>
+                  <input type="hidden" th:field="*{status}">
+                  <th:block th:if="*{status == '0' and display != 'new'}">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary" name="submit">提出</button>
+                  </th:block>
+                  <th:block th:if="${@userInformation.getRoles() == '2' or @userInformation.getRoles() == '3' and display != 'new'}">
+                    <th:block th:if="*{status == '1'}">
+                      <button type="submit" class="btn btn-sm btn-outline-secondary" name="cancel">提出取消</button>
+                    </th:block>
+                  </th:block>
+                  <th:block th:if="${@userInformation.getRoles() == '2' or @userInformation.getRoles() == '3'}">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary" name="delete">削除</button>
+                  </th:block>
+                </div>
+                <br>
+                <div>
+                  <button type="submit" class="btn btn-sm btn-danger" name="back">戻る</button>
+                  <button type="submit" class="btn btn-sm btn-danger" name="logout">ログアウト</button>
+                </div>
+                <br>
+              </div>
+            </div>
+            <th:block th:if="*{info != null}">
+              <div class="row">
+                <div class="col-12">
+                  <label class="alert alert-info" th:text="*{info}"></label>
+                </div>
+              </div>
+            </th:block>
+            <th:block th:if="*{details != null}">
+                <div class="row">
+                  <div class="col-12">
+                    <table class="table table-sm table-bordered">
+                      <thead>
+                        <tr>
+                          <th id="th-01"><label>日付</label></th>
+                          <th id="th-02"><label>曜日</label></th>
+                          <th id="th-03"><label>種別</label></th>
+                          <th id="th-04"><label>始業</label></th>
+                          <th id="th-05"><label>終業</label></th>
+                          <th id="th-06"><label>休憩</label></th>
+                          <th id="th-07"><label>実働</label></th>
+                          <th id="th-08"><label>備考</label></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr th:each="each, stat : *{details}">
+                          <td width="100">
+                            <input type="text" style="width: 35px;" class="form-control form-control-sm" th:field="*{details[__${stat.index}__].date}" readonly>
+                          </td>
+                          <td width="100">
+                            <input type="text" style="width: 30px;" class="form-control form-control-sm" th:field="*{details[__${stat.index}__].week}" readonly>
+                          </td>
+                          <td width="150">
+                            <select class="form-control form-control-sm" style="width: 65px;" th:field="*{details[__${stat.index}__].type}">
+                              <option value="0">---</option>
+                              <option value="1">出勤</option>
+                              <option value="2">有給</option>
+                            </select>
+                          </td>
+                          <td>
+                            <input type="time" class="form-control form-control-sm" th:field="*{details[__${stat.index}__].openTime}">
+                          </td>
+                          <td>
+                            <input type="time" class="form-control form-control-sm" th:field="*{details[__${stat.index}__].closeTime}">
+                          </td>
+                          <td>
+                            <input type="time" class="form-control form-control-sm" th:field="*{details[__${stat.index}__].breakTime}">
+                          </td>
+                          <td>
+                            <input type="time" class="form-control form-control-sm" th:field="*{details[__${stat.index}__].totalTime}">
+                          </td>
+                          <td>
+                            <input type="text" class="form-control form-control-sm" th:field="*{details[__${stat.index}__].remark}">
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+            </th:block>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   </main>
+   <script th:inline="javascript">
+    let smartFlag = /*[[${@userInformation.isSmartflag()}]]*/;
+    console.log(smartFlag);
+    if (smartFlag) {
+        document.getElementById('computer').style.display = 'none';
+        document.getElementById('smart').style.display = '';
+
+    } else {
+        document.getElementById('computer').style.display = '';
+        document.getElementById('smart').style.display = 'none';
+
+    }
+   </script>
   <footer class="fixed-bottom bg-white">
     <div class="container">
       <div class="row text-center">

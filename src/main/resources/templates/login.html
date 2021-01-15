@@ -24,7 +24,6 @@
   <main>
   <form th:action="@{/login/auth}" th:object="${loginForm}" method="post" autocomplete="off">
     <div id="computer" style="display:">
-      PCサイト用です
       <div th:if="${accounterror}">
         <input type="text" />
       </div>
@@ -42,6 +41,7 @@
               <input type="text" class="form-control form-control-sm" placeholder="account" th:field="*{account}">
               <label for="password">パスワード：</label>
               <input type="password" class="form-control form-control-sm" placeholder="password" th:field="*{password}">
+              <input type="hidden" name="smartflag" th:value="false">
             </div>
             <div class="bnt-group">
               <button type="submit" class="btn btn-sm btn-block btn-primary">ログイン</button>
@@ -51,15 +51,29 @@
       </div>
     </div>
     <div id="smart" style="display: none">
-      スマホサイト用です
-      <label for="account">アカウント：</label>
-      <input type="text" placeholder="account" th:field="*{account}">
-      <label for="password">パスワード：</label>
-      <input type="password" placeholder="password" th:field="*{password}">
-      <button type="submit">ログイン</button>
-    </div>
-  </form>
-  </main>
+         <div th:if="${accounterror}"><input type="text" /></div>
+            <div class="container">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <logic:notEmpty name="loginForm" property="accounterror"/>
+                                <font size="2" color="red"><p th:text="*{accounterror}"></p></font><br>
+                            </logic:notEmpty>
+                               <label for="account">アカウント：</label>
+                               <input type="text" class="form-control form-control-sm" placeholder="account" th:field="*{account}">
+                               <label for="password">パスワード：</label>
+                               <input type="password" class="form-control form-control-sm" placeholder="password" th:field="*{password}">
+                               <input type="hidden" name="smartflag" th:value="true">
+                        </div>
+                        <div class="bnt-group">
+                            <button type="submit" class="btn btn-sm btn-block btn-primary">ログイン</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+       </form>
+   </main>
   <script th:inline="javascript">
        let ua = navigator.userAgent;
        if (ua.indexOf('iPhone') > 0 || (ua.indexOf('Android') > 0) && (ua.indexOf('Mobile') > 0) || ua.indexOf('Windows Phone') > 0) {

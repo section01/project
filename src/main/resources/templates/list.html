@@ -32,6 +32,7 @@
     </div>
   </header>
   <main>
+  <div id="computer" style="display:">
     <div class="container-fluid py-3">
       <div class="row">
         <div class="col-md-3 col-lg-2">
@@ -60,12 +61,14 @@
                   <th:block th:switch="${@userInformation.getRoles()}">
                     <input type="text" class="form-control form-control-sm" th:case="1" th:field="*{id}" readonly>
                     <input type="text" class="form-control form-control-sm" th:case="2" th:field="*{id}">
+                    <input type="text" class="form-control form-control-sm" th:case="3" th:field="*{id}">
                   </th:block>
                 </label>
                 <label>社員名：
                   <th:block th:switch="${@userInformation.getRoles()}">
                     <input type="text" class="form-control form-control-sm" th:case="1" th:field="*{name}" readonly>
                     <input type="text" class="form-control form-control-sm" th:case="2" th:field="*{name}">
+                    <input type="text" class="form-control form-control-sm" th:case="3" th:field="*{name}">
                   </th:block>
                 </label>
                 <label>検索期間From：
@@ -145,7 +148,151 @@
         </div>
       </div>
     </div>
+   </div>
+  <div id="smart" style="display:none">
+    <div class="container-fluid py-3">
+      <div class="row">
+        <div class="col-md-3 col-lg-2">
+          <div class="card">
+            <div class="card-header">ユーザ情報</div>
+            <div class="card-body">
+              <label th:text="'社員ID：' + ${@userInformation.getId()}"></label><br>
+              <label th:text="'社員名：' + ${@userInformation.getName()}"></label><br>
+              <th:block th:if="${@userInformation.getRoles() == '1'}">
+                <label th:text="権限：一般ユーザ"></label><br>
+              </th:block>
+              <th:block th:if="${@userInformation.getRoles() == '2'}">
+                <label th:text="権限：管理ユーザ"></label><br>
+              </th:block>
+              <th:block th:if="${@userInformation.getRoles() == '3'}">
+                <label th:text="権限：システム管理"></label><br>
+              </th:block>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 col-lg-10">
+          <form th:action="@{/list/event}" th:object="${listForm}" method="post">
+            <div class="row">
+              <div class="col-12">
+                <br>
+                <div>
+                  <label>社員ID：
+                    <th:block th:switch="${@userInformation.getRoles()}">
+                      <input type="text" class="form-control form-control-sm" th:case="1" th:field="*{id}" readonly>
+                      <input type="text" class="form-control form-control-sm" th:case="2" th:field="*{id}">
+                      <input type="text" class="form-control form-control-sm" th:case="3" th:field="*{id}">
+                    </th:block>
+                  </label>
+                </div>
+                <br>
+                <div>
+                  <label>社員名：
+                    <th:block th:switch="${@userInformation.getRoles()}">
+                      <input type="text" class="form-control form-control-sm" th:case="1" th:field="*{name}" readonly>
+                      <input type="text" class="form-control form-control-sm" th:case="2" th:field="*{name}">
+                      <input type="text" class="form-control form-control-sm" th:case="3" th:field="*{name}">
+                    </th:block>
+                  </label>
+                </div>
+                <br>
+                <div>
+                  <label>検索期間From：
+                    <input type="month" class="form-control form-control-sm" th:field="*{periodFrom}">
+                  </label>
+                  <label>検索期間To：
+                    <input type="month" class="form-control form-control-sm" th:field="*{periodTo}">
+                  </label>
+                </div>
+                <br>
+                <div>
+                  <button type="button" class="btn btn-sm btn-outline-secondary"
+                     th:onclick="'location.href=\'' + @{/work(display=new, period=null, id=*{id}, name=*{name}, status='0')} + '\''">新規</button>
+                  <button type="submit" class="btn btn-sm btn-outline-secondary" name="find">検索</button>
+                  <button type="submit" class="btn btn-sm btn-danger" name="logout">ログアウト</button>
+                </div>
+              </div>
+            </div>
+            <br>
+            <th:block th:if="*{info != null}">
+              <div class="row">
+                <div class="col-12">
+                  <label class="alert alert-info" th:text="*{info}"></label>
+                </div>
+              </div>
+            </th:block>
+            <th:block th:if="*{details != null}">
+              <div class="row">
+                <div class="col-12">
+                  <table class="table table-sm table-bordered">
+                    <thead>
+                      <tr>
+                        <th:block th:if="${@userInformation.getRoles() == '2'} or ${@userInformation.getRoles() == '3'}">
+                          <th>
+                            <label>社員ID</label>
+                          </th>
+                          <th>
+                            <label>社員名</label>
+                          </th>
+                        </th:block>
+                        <th>
+                          <label>年月</label>
+                        </th>
+                        <th>
+                          <label>ステータス</label>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="each, stat : *{details}">
+                        <th:block th:if="${@userInformation.getRoles() == '2' or @userInformation.getRoles() == '3'}">
+                          <td>
+                            <label>[[*{details[__${stat.index}__].id}]]</label>
+                          </td>
+                          <td>
+                            <label>[[*{details[__${stat.index}__].name}]]</label>
+                          </td>
+                        </th:block>
+                        <td>
+                          <a th:href="@{/work(
+                            display=search, period=*{details[__${stat.index}__].period}, id=*{details[__${stat.index}__].id}, name=*{details[__${stat.index}__].name}, status=*{details[__${stat.index}__].status})}"
+                            th:text="*{details[__${stat.index}__].period}"></a>
+                        </td>
+                        <td>
+                          <th:block th:if="*{details[__${stat.index}__].status == '0'}">
+                            <label>未提出です。</label>
+                          </th:block>
+                          <th:block th:if="*{details[__${stat.index}__].status == '1'}">
+                            <label>提出済です。</label>
+                          </th:block>
+                          <th:block th:if="*{details[__${stat.index}__].status == '2'}">
+                            <label>提出期限を過ぎています。</label>
+                          </th:block>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </th:block>
+          </form>
+        </div>
+      </div>
+    </div>
+   </div>
   </main>
+   <script th:inline="javascript">
+    let smartFlag = /*[[${@userInformation.isSmartflag()}]]*/;
+    console.log(smartFlag);
+    if (smartFlag) {
+        document.getElementById('computer').style.display = 'none';
+        document.getElementById('smart').style.display = '';
+
+    } else {
+        document.getElementById('computer').style.display = '';
+        document.getElementById('smart').style.display = 'none';
+
+    }
+   </script>
   <footer class="fixed-bottom bg-white">
     <div class="container">
       <div class="row text-center">

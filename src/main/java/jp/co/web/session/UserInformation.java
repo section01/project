@@ -31,4 +31,9 @@ public class UserInformation {
      */
     private String name = null;
 
+    /**
+     * スマホフラグ
+     */
+    private boolean smartflag = false;
+
 }

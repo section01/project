@@ -28,7 +28,7 @@ public class LoginForm implements Serializable {
     private String accounterror = null;
 
     /**
-     * エラーメッセージ
+     * スマホフラグ
      */
     private boolean smartflag = false;
 

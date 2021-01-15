@@ -84,6 +84,7 @@ public class LoginService {
         userInformation.setRoles(usrModel.getRoles());
         userInformation.setId(usrModel.getId());
         userInformation.setName(usrModel.getName());
+        userInformation.setSmartflag(loginForm.isSmartflag());
 
         return true;
     }
