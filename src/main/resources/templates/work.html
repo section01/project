@@ -302,7 +302,7 @@
   </div>
   </main>
    <script th:inline="javascript">
-    let smartFlag = /*[[${@userInformation.isSmartflag()}]]*/;
+    let smartFlag = /*[[${@userInformation.isSmartflag()}]]*/
     console.log(smartFlag);
     if (smartFlag) {
         document.getElementById('computer').style.display = 'none';

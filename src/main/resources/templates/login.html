@@ -23,7 +23,7 @@
 <body>
   <main>
   <form th:action="@{/login/auth}" th:object="${loginForm}" method="post" autocomplete="off">
-    <div id="computer" style="display:">
+    <div id="computer" style="display:block">
       <div th:if="${accounterror}">
         <input type="text" />
       </div>
@@ -77,12 +77,10 @@
   <script th:inline="javascript">
        let ua = navigator.userAgent;
        if (ua.indexOf('iPhone') > 0 || (ua.indexOf('Android') > 0) && (ua.indexOf('Mobile') > 0) || ua.indexOf('Windows Phone') > 0) {
-           if (confirm('スマートフォンサイトに移動しますか？')) {
-               document.querySelectorAll('#computer input').forEach( e => e.disabled = true);
-               document.querySelectorAll('#smart input').forEach( e => e.disabled = false);
-               document.getElementById('computer').style.display = 'none';
-               document.getElementById('smart').style.display = '';
-           }
+           document.querySelectorAll('#computer input').forEach( e => e.disabled = true);
+           document.querySelectorAll('#smart input').forEach( e => e.disabled = false);
+           document.getElementById('computer').style.display = 'none';
+           document.getElementById('smart').style.display = '';
        } else {
            document.querySelectorAll('#computer input').forEach( e => e.disabled = false);
            document.querySelectorAll('#smart input').forEach( e => e.disabled = true);
