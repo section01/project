@@ -23,4 +23,4 @@ logging:
     root: WARN
     springframework.web: INFO
     org.hibernate.sql: ERROR
-    com.worknavi: INFO
+    jp.co.web.infrastructure: INFO

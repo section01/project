@@ -23,4 +23,4 @@ logging:
     root: INFO
     springframework.web: INFO
     org.hibernate.sql: DEBUG
-    com.worknavi: DEBUG
+    jp.co.web.infrastructure: DEBUG
