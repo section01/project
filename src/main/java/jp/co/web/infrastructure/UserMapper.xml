@@ -16,9 +16,9 @@
             um.id,
             um.name
         from
-            ${dbschema}.user_mst um
+            user_mst um
         inner join
-            ${dbschema}.auth_mst am
+            auth_mst am
         on
             am.id = um.id
         where
@@ -33,9 +33,9 @@
             um.id,
             um.name
         from
-            ${dbschema}.user_mst um
+            user_mst um
         inner join
-            ${dbschema}.auth_mst am
+            auth_mst am
         on
             am.id = um.id
         where

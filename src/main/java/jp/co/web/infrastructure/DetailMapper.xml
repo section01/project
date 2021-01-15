@@ -26,9 +26,9 @@
             dt.total_time,
             dt.remark
         from
-            ${dbschema}.detail_tbl dt
+            detail_tbl dt
         inner join
-            ${dbschema}.period_tbl pt
+            period_tbl pt
         on
             dt.id     = pt.id
         and dt.period = pt.period
@@ -53,7 +53,7 @@
 
 	<!-- 登録 -->
     <insert id="insertDetail">
-        insert into ${dbschema}.detail_tbl (
+        insert into detail_tbl (
             id,
             period,
             date,

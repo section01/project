@@ -13,7 +13,6 @@ spring:
     locations: classpath:/db/migration/product
     baseline-on-migrate: FALSE
     baseline-version: 0.0.0
-    schemas: project
     table: schema_history
 logging:
   file:
