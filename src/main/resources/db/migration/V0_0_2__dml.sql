@@ -1,11 +1,40 @@
+select 1;
+
+-- ユーザテーブル
 insert into user_mst(id,name) values ('00001','00001');
 insert into user_mst(id,name) values ('00002','00002');
 insert into user_mst(id,name) values ('00003','00003');
 
+-- 認証テーブル
 insert into auth_mst(id,account,roles,password) values ('00001','00001','1','00001');
 insert into auth_mst(id,account,roles,password) values ('00002','00002','2','00002');
 insert into auth_mst(id,account,roles,password) values ('00003','00003','3','00003');
 
+-- 勤怠期間テーブル
+insert into public.period_tbl(id,period) values ('00001','2020-01');
+insert into public.period_tbl(id,period) values ('00002','2020-01');
+insert into public.period_tbl(id,period) values ('00002','2020-02');
+insert into public.period_tbl(id,period) values ('00002','2020-03');
+insert into public.period_tbl(id,period) values ('00002','2020-04');
+insert into public.period_tbl(id,period) values ('00002','2020-05');
+insert into public.period_tbl(id,period) values ('00002','2020-06');
+insert into public.period_tbl(id,period) values ('00002','2020-07');
+insert into public.period_tbl(id,period) values ('00002','2020-08');
+insert into public.period_tbl(id,period) values ('00002','2020-09');
+insert into public.period_tbl(id,period) values ('00002','2020-11');
+insert into public.period_tbl(id,period) values ('00002','2020-12');
+insert into public.period_tbl(id,period) values ('00001','2020-02');
+insert into public.period_tbl(id,period) values ('00001','2020-03');
+insert into public.period_tbl(id,period) values ('00001','2020-04');
+insert into public.period_tbl(id,period) values ('00001','2020-05');
+insert into public.period_tbl(id,period) values ('00001','2020-06');
+insert into public.period_tbl(id,period) values ('00001','2020-07');
+insert into public.period_tbl(id,period) values ('00001','2020-08');
+insert into public.period_tbl(id,period) values ('00001','2020-09');
+insert into public.period_tbl(id,period) values ('00001','2020-11');
+insert into public.period_tbl(id,period) values ('00001','2020-12');
+
+-- 勤怠詳細テーブル
 insert into public.detail_tbl(id,period,"date",week,type,open_time,close_time,break_time,total_time,remark) values ('00002','2020-01','1','土','0',null,null,null,null,null);
 insert into public.detail_tbl(id,period,"date",week,type,open_time,close_time,break_time,total_time,remark) values ('00002','2020-01','2','日','0',null,null,null,null,null);
 insert into public.detail_tbl(id,period,"date",week,type,open_time,close_time,break_time,total_time,remark) values ('00002','2020-01','3','月','0',null,null,null,null,null);
@@ -679,25 +708,3 @@ insert into public.detail_tbl(id,period,"date",week,type,open_time,close_time,br
 insert into public.detail_tbl(id,period,"date",week,type,open_time,close_time,break_time,total_time,remark) values ('00001','2020-12','30','土','0',null,null,null,null,null);
 insert into public.detail_tbl(id,period,"date",week,type,open_time,close_time,break_time,total_time,remark) values ('00001','2020-12','31','日','0',null,null,null,null,null);
 
-insert into public.period_tbl(id,period) values ('00001','2020-01');
-insert into public.period_tbl(id,period) values ('00002','2020-01');
-insert into public.period_tbl(id,period) values ('00002','2020-02');
-insert into public.period_tbl(id,period) values ('00002','2020-03');
-insert into public.period_tbl(id,period) values ('00002','2020-04');
-insert into public.period_tbl(id,period) values ('00002','2020-05');
-insert into public.period_tbl(id,period) values ('00002','2020-06');
-insert into public.period_tbl(id,period) values ('00002','2020-07');
-insert into public.period_tbl(id,period) values ('00002','2020-08');
-insert into public.period_tbl(id,period) values ('00002','2020-09');
-insert into public.period_tbl(id,period) values ('00002','2020-11');
-insert into public.period_tbl(id,period) values ('00002','2020-12');
-insert into public.period_tbl(id,period) values ('00001','2020-02');
-insert into public.period_tbl(id,period) values ('00001','2020-03');
-insert into public.period_tbl(id,period) values ('00001','2020-04');
-insert into public.period_tbl(id,period) values ('00001','2020-05');
-insert into public.period_tbl(id,period) values ('00001','2020-06');
-insert into public.period_tbl(id,period) values ('00001','2020-07');
-insert into public.period_tbl(id,period) values ('00001','2020-08');
-insert into public.period_tbl(id,period) values ('00001','2020-09');
-insert into public.period_tbl(id,period) values ('00001','2020-11');
-insert into public.period_tbl(id,period) values ('00001','2020-12');
