@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <!-- ■ POMバージョン -->
+    <!-- POMバージョン -->
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- ■ プロジェクト設定 -->
+    <!-- プロジェクト設定 -->
     <groupId>jp.co.web</groupId>
     <artifactId>project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -13,7 +13,7 @@
     <name>project</name>
     <description></description>
 
-    <!-- ■ ユーザ定義 -->
+    <!-- ユーザ定義 -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -21,7 +21,7 @@
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
     </properties>
 
-    <!-- ■ SpringBoot -->
+    <!-- SpringBoot -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -29,9 +29,9 @@
         <relativePath/>
     </parent>
 
-    <!-- ■ Maven依存関係 -->
+    <!-- Maven依存関係 -->
     <dependencies>
-        <!-- ▼ WEBアプリケーション ▼ -->
+        <!-- WEBアプリケーション -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -43,7 +43,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- ▼ ユーティリティ -->
+        <!-- ユーティリティ -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -60,7 +60,7 @@
             <version>2.3.4</version>
         </dependency>
 
-        <!-- ▼ データベース -->
+        <!-- データベース -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -76,7 +76,7 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
 
-        <!-- ▼ フロントエンド -->
+        <!-- フロントエンド -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -98,8 +98,11 @@
         </dependency>
     </dependencies>
 
-    <!-- ■ ビルド -->
+    <!-- ビルドツール -->
     <build>
+        <!-- ビルドディレクトリ -->
+        <directory>${basedir}/.target</directory>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
