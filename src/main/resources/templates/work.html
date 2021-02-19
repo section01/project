@@ -261,13 +261,13 @@
                       </thead>
                       <tbody>
                         <tr th:each="each, stat : *{details}">
-                          <td width="100">
+                          <td>
                             <input type="text" style="width: 35px;" class="form-control form-control-sm" th:field="*{details[__${stat.index}__].date}" readonly>
                           </td>
-                          <td width="100">
+                          <td>
                             <input type="text" style="width: 30px;" class="form-control form-control-sm" th:field="*{details[__${stat.index}__].week}" readonly>
                           </td>
-                          <td width="150">
+                          <td>
                             <select class="form-control form-control-sm" style="width: 65px;" th:field="*{details[__${stat.index}__].type}">
                               <option value="0">---</option>
                               <option value="1">出勤</option>
@@ -287,7 +287,7 @@
                             <input type="time" class="form-control form-control-sm" th:field="*{details[__${stat.index}__].totalTime}">
                           </td>
                           <td>
-                            <input type="text" class="form-control form-control-sm" th:field="*{details[__${stat.index}__].remark}">
+                            <input type="text" style="width: 150px;" class="form-control form-control-sm" th:field="*{details[__${stat.index}__].remark}">
                           </td>
                         </tr>
                       </tbody>
